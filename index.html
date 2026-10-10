@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="ShivaStream - Watch Movies, TV Shows, and Web Series in High Definition. Developed by Shivanshu.">
+    <title>ShivaStream | Watch TV Shows & Movies Online</title>
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- ================= NAVBAR ================= -->
+    <header class="navbar" id="mainNavbar">
+        <div class="nav-left">
+            <a href="#home" class="logo">
+                <span class="logo-text">SHIVASTREAM</span>
+            </a>
+
+            <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle navigation menu">
+                ☰
+            </button>
+
+            <nav id="navMenu">
+                <a href="#home" class="nav-link active">Home</a>
+                <a href="#movies" class="nav-link">Movies</a>
+                <a href="#series" class="nav-link">TV Shows</a>
+                <a href="#trending" class="nav-link">Trending</a>
+                <a href="#mylist" class="nav-link">
+                    My List <span class="badge-count" id="navWatchlistCount">0</span>
+                </a>
+            </nav>
+        </div>
+
+        <div class="nav-right">
+            <div class="search-box">
+                <span class="search-icon">🔍</span>
+                <input
+                    type="text"
+                    id="searchInput"
+                    placeholder="Search movies, shows, genres..."
+                    autocomplete="off"
+                >
+                <button id="clearSearchBtn" class="clear-search-btn" title="Clear search">✕</button>
+            </div>
+
+            <div class="server-status-pill" id="serverStatusPill" title="Backend Server Status">
+                <span class="status-dot"></span>
+                <span class="status-text" id="serverStatusText">Local Mode</span>
+            </div>
+
+            <div class="user-profile" title="Signed in as Shivanshu">
+                <div class="avatar">S</div>
+                <span class="user-name">Shivanshu</span>
+            </div>
+        </div>
+    </header>
+
+
+    <!-- ================= HERO SECTION ================= -->
+    <section class="hero" id="home">
+        <div class="hero-backdrop" id="heroBackdrop"></div>
+        <div class="hero-overlay"></div>
+
+        <div class="hero-content">
+            <div class="hero-badge" id="heroBadge">
+                🔥 #1 ON SHIVASTREAM TODAY
+            </div>
+
+            <h1 class="hero-title" id="heroTitle">Stranger Things</h1>
+
+            <div class="hero-meta">
+                <span class="match-score">98% Match</span>
+                <span class="meta-tag" id="heroMeta">2022 • 16+ • 4 Seasons</span>
+                <span class="quality-badge">4K ULTRA HD</span>
+                <span class="audio-badge">5.1 AUDIO</span>
+            </div>
+
+            <div class="hero-genres" id="heroGenres">
+                <span class="genre-pill">Sci-Fi</span>
+                <span class="genre-pill">Horror</span>
+                <span class="genre-pill">Drama</span>
+            </div>
+
+            <p class="hero-description" id="heroDesc">
+                When a young boy vanishes, a small town uncovers a mystery involving secret experiments, terrifying supernatural forces and one strange little girl with telekinetic powers.
+            </p>
+
+            <div class="hero-actions">
+                <button class="btn btn-primary" id="heroPlayBtn">
+                    <span class="btn-icon">▶</span> Play Trailer
+                </button>
+                <button class="btn btn-secondary" id="heroListBtn">
+                    <span class="btn-icon" id="heroListIcon">+</span> <span id="heroListText">My List</span>
+                </button>
+                <button class="btn btn-outline" id="heroInfoBtn">
+                    <span class="btn-icon">ⓘ</span> More Info
+                </button>
+            </div>
+        </div>
+
+        <!-- Hero Carousel Dots -->
+        <div class="hero-dots" id="heroDots">
+            <!-- Populated via script.js -->
+        </div>
+    </section>
+
+
+    <!-- ================= GENRE FILTER PILLS ================= -->
+    <div class="genre-filter-bar">
+        <div class="genre-scroll-container">
+            <button class="filter-pill active" data-filter="all">All Titles</button>
+            <button class="filter-pill" data-filter="movies">Movies</button>
+            <button class="filter-pill" data-filter="series">TV Shows</button>
+            <button class="filter-pill" data-filter="trending">Trending</button>
+            <button class="filter-pill" data-filter="Action">Action</button>
+            <button class="filter-pill" data-filter="Sci-Fi">Sci-Fi</button>
+            <button class="filter-pill" data-filter="Crime">Crime</button>
+            <button class="filter-pill" data-filter="Drama">Drama</button>
+            <button class="filter-pill" data-filter="Adventure">Adventure</button>
+        </div>
+    </div>
+
+
+    <!-- ================= LIVE SEARCH RESULTS ================= -->
+    <section class="search-results-section" id="searchResultsSection" style="display: none;">
+        <div class="section-header">
+            <h2 id="searchResultsTitle">Search Results</h2>
+            <button class="close-search-btn" id="closeSearchSection">✕ Close Search</button>
+        </div>
+        <div class="search-grid" id="searchGrid">
+            <!-- Dynamic search results populated here -->
+        </div>
+    </section>
+
+
+    <!-- ================= MY LIST SECTION ================= -->
+    <section class="movie-section" id="mylist" style="display: none;">
+        <div class="section-header">
+            <h2>❤️ My Watchlist (<span id="watchlistCount">0</span>)</h2>
+        </div>
+        <div class="carousel-wrapper">
+            <button class="carousel-nav prev" data-target="myListContainer" aria-label="Scroll left">‹</button>
+            <div class="movie-container" id="myListContainer">
+                <!-- Dynamically populated from localStorage -->
+            </div>
+            <button class="carousel-nav next" data-target="myListContainer" aria-label="Scroll right">›</button>
+        </div>
+    </section>
+
+
+    <!-- ================= TRENDING NOW ================= -->
+    <section class="movie-section" id="trending">
+        <div class="section-header">
+            <h2>🔥 Trending Now</h2>
+            <span class="section-subtitle">Top stream picks this week</span>
+        </div>
+        <div class="carousel-wrapper">
+            <button class="carousel-nav prev" data-target="trendingContainer" aria-label="Scroll left">‹</button>
+            <div class="movie-container" id="trendingContainer">
+                <!-- Populated dynamically via script.js -->
+            </div>
+            <button class="carousel-nav next" data-target="trendingContainer" aria-label="Scroll right">›</button>
+        </div>
+    </section>
+
+
+    <!-- ================= POPULAR MOVIES ================= -->
+    <section class="movie-section" id="movies">
+        <div class="section-header">
+            <h2>🎬 Popular Movies</h2>
+            <span class="section-subtitle">Blockbuster cinematic hits</span>
+        </div>
+        <div class="carousel-wrapper">
+            <button class="carousel-nav prev" data-target="moviesContainer" aria-label="Scroll left">‹</button>
+            <div class="movie-container" id="moviesContainer">
+                <!-- Populated dynamically via script.js -->
+            </div>
+            <button class="carousel-nav next" data-target="moviesContainer" aria-label="Scroll right">›</button>
+        </div>
+    </section>
+
+
+    <!-- ================= TV SHOWS & WEB SERIES ================= -->
+    <section class="movie-section" id="series">
+        <div class="section-header">
+            <h2>📺 TV Shows & Web Series</h2>
+            <span class="section-subtitle">Binge-worthy drama and thrillers</span>
+        </div>
+        <div class="carousel-wrapper">
+            <button class="carousel-nav prev" data-target="seriesContainer" aria-label="Scroll left">‹</button>
+            <div class="movie-container" id="seriesContainer">
+                <!-- Populated dynamically via script.js -->
+            </div>
+            <button class="carousel-nav next" data-target="seriesContainer" aria-label="Scroll right">›</button>
+        </div>
+    </section>
+
+
+    <!-- ================= ACTION & SCI-FI SPOTLIGHT ================= -->
+    <section class="movie-section" id="scifi">
+        <div class="section-header">
+            <h2>⚡ Action & Sci-Fi Thrillers</h2>
+            <span class="section-subtitle">High-octane and mind-bending entertainment</span>
+        </div>
+        <div class="carousel-wrapper">
+            <button class="carousel-nav prev" data-target="actionContainer" aria-label="Scroll left">‹</button>
+            <div class="movie-container" id="actionContainer">
+                <!-- Populated dynamically via script.js -->
+            </div>
+            <button class="carousel-nav next" data-target="actionContainer" aria-label="Scroll right">›</button>
+        </div>
+    </section>
+
+
+    <!-- ================= FOOTER ================= -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-top">
+                <div class="footer-logo">
+                    <h3>SHIVASTREAM</h3>
+                    <p class="tagline">Your entertainment, your choice. Next-generation cinematic streaming.</p>
+                </div>
+                <div class="footer-links">
+                    <div class="link-column">
+                        <h4>Explore</h4>
+                        <a href="#home">Home</a>
+                        <a href="#movies">Popular Movies</a>
+                        <a href="#series">TV Shows</a>
+                        <a href="#trending">Trending Now</a>
+                    </div>
+                    <div class="link-column">
+                        <h4>Features</h4>
+                        <a href="#mylist">Watchlist</a>
+                        <a href="#" onclick="openHeroTrailer(); return false;">Featured Trailers</a>
+                        <a href="#">4K Ultra HD</a>
+                        <a href="#">Dolby Atmos</a>
+                    </div>
+                    <div class="link-column">
+                        <h4>Developer</h4>
+                        <a href="#">Shivanshu</a>
+                        <a href="#">B.Tech Computer Science</a>
+                        <a href="#">Mini Project 2026</a>
+                        <a href="#">Responsive Web Design</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p class="copyright">
+                    © 2026 <strong>ShivaStream</strong> &bull; Designed & Built with ❤️ by <strong>Shivanshu</strong> &bull; B.Tech Mini Project
+                </p>
+                <div class="footer-badges">
+                    <span class="foot-badge">HTML5</span>
+                    <span class="foot-badge">CSS3 Modern</span>
+                    <span class="foot-badge">Vanilla JavaScript</span>
+                    <span class="foot-badge">Responsive</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- ================= VIDEO TRAILER MODAL ================= -->
+    <div class="modal video-modal" id="videoModal">
+        <div class="video-modal-container">
+            <div class="video-modal-header">
+                <div class="video-title-info">
+                    <span class="now-playing-tag">▶ NOW PLAYING OFFICIAL TRAILER</span>
+                    <h3 id="videoPlayerTitle">Movie Title</h3>
+                </div>
+                <button class="close-video-btn" id="closeVideoModal" aria-label="Close trailer player">✕</button>
+            </div>
+            <div class="video-frame-wrapper">
+                <iframe
+                    id="trailerIframe"
+                    src=""
+                    title="Trailer Player"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen>
+                </iframe>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ================= MOVIE DETAILS MODAL ================= -->
+    <div class="modal detail-modal" id="movieModal">
+        <div class="modal-content">
+            <button class="close-btn" id="closeModal" aria-label="Close details">✕</button>
+
+            <div class="modal-hero-banner" id="modalBanner">
+                <div class="modal-banner-gradient"></div>
+                <div class="modal-banner-actions">
+                    <button class="btn btn-primary" id="modalPlayBtn">
+                        ▶ Watch Trailer
+                    </button>
+                    <button class="btn btn-secondary" id="modalWatchlistBtn">
+                        + Add to My List
+                    </button>
+                </div>
+            </div>
+
+            <div class="modal-body">
+                <div class="modal-left">
+                    <h2 id="modalTitle">Movie Title</h2>
+
+                    <div class="modal-meta-row">
+                        <span class="match-score" id="modalMatch">98% Match</span>
+                        <span class="meta-tag" id="modalYear">2023</span>
+                        <span class="age-badge" id="modalAge">16+</span>
+                        <span class="meta-tag" id="modalDuration">2h 15m</span>
+                        <span class="quality-badge" id="modalQuality">4K ULTRA HD</span>
+                    </div>
+
+                    <p class="modal-description" id="modalDescription">
+                        Detailed movie synopsis.
+                    </p>
+                </div>
+
+                <div class="modal-right">
+                    <div class="detail-group">
+                        <span class="detail-label">Cast:</span>
+                        <span class="detail-value" id="modalCast">Actor 1, Actor 2</span>
+                    </div>
+                    <div class="detail-group">
+                        <span class="detail-label">Genres:</span>
+                        <span class="detail-value" id="modalGenres">Sci-Fi, Action</span>
+                    </div>
+                    <div class="detail-group">
+                        <span class="detail-label">Director:</span>
+                        <span class="detail-value" id="modalDirector">Christopher Nolan</span>
+                    </div>
+                    <div class="detail-group">
+                        <span class="detail-label">Rating:</span>
+                        <span class="detail-value star-rating" id="modalRating">★ 8.8 / 10 (IMDb)</span>
+                    </div>
+                    <div class="detail-group">
+                        <span class="detail-label">Audio:</span>
+                        <span class="detail-value">English [Original], Hindi, Dolby Atmos 5.1</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ================= TOAST NOTIFICATION ================= -->
+    <div class="toast-notification" id="toastNotification">
+        <span class="toast-icon">✓</span>
+        <span class="toast-message" id="toastMessage">Added to your Watchlist</span>
+    </div>
+
+
+    <!-- Scripts -->
+    <script src="data.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
