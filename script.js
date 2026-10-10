@@ -21,6 +21,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const navMenu = document.getElementById("navMenu");
     const serverStatusPill = document.getElementById("serverStatusPill");
     const serverStatusText = document.getElementById("serverStatusText");
+    const mobileNavStatus = document.querySelector(".mobile-nav-status");
+    const mobileStatusText = document.getElementById("mobileStatusText");
 
     const searchInput = document.getElementById("searchInput");
     const clearSearchBtn = document.getElementById("clearSearchBtn");
@@ -119,6 +121,10 @@ document.addEventListener("DOMContentLoaded", () => {
                     serverStatusText.textContent = "SQLite API";
                     serverStatusPill.title = "Connected to Python Flask REST API & SQLite DB";
                 }
+                if (mobileNavStatus) {
+                    mobileNavStatus.classList.add("online");
+                    mobileStatusText.textContent = "Server: SQLite API Online";
+                }
 
                 // Fetch live movies from database
                 const moviesRes = await fetch(`${API_BASE}/movies`);
@@ -159,6 +165,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 serverStatusPill.classList.remove("online");
                 serverStatusText.textContent = "Local Mode";
                 serverStatusPill.title = "Running in Local Offline Mode. Start Flask server to connect SQLite.";
+            }
+            if (mobileNavStatus) {
+                mobileNavStatus.classList.remove("online");
+                mobileStatusText.textContent = "Server: Local Mode";
             }
         }
     }
@@ -668,6 +678,14 @@ document.addEventListener("DOMContentLoaded", () => {
                 navMenu.classList.remove("show");
                 mobileToggle.textContent = "☰";
             });
+        });
+
+        // Close mobile drawer when tapping outside
+        document.addEventListener("click", (e) => {
+            if (navMenu.classList.contains("show") && !navMenu.contains(e.target) && !mobileToggle.contains(e.target)) {
+                navMenu.classList.remove("show");
+                mobileToggle.textContent = "☰";
+            }
         });
     }
 

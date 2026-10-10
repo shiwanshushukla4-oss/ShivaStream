@@ -34,6 +34,10 @@
 html {
     scroll-behavior: smooth;
     font-size: 16px;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+    -webkit-text-size-adjust: 100%;
 }
 
 body {
@@ -41,8 +45,16 @@ body {
     color: var(--text-primary);
     font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
     line-height: 1.5;
+    width: 100%;
+    max-width: 100%;
     overflow-x: hidden;
     min-height: 100vh;
+    position: relative;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
 }
 
 /* Custom Scrollbars */
@@ -173,6 +185,11 @@ button {
     font-weight: 700;
     padding: 1px 7px;
     border-radius: 12px;
+}
+
+/* Mobile Nav Status (Hidden on Desktop) */
+.mobile-nav-status {
+    display: none;
 }
 
 /* Mobile Toggle */
@@ -1232,18 +1249,40 @@ footer {
     }
 }
 
-/* =========================
-   RESPONSIVE DESIGN
-========================= */
+/* ========================================================
+   RESPONSIVE DESIGN (MOBILE, TABLET & DESKTOP)
+   Fully optimized for 320px to 480px phones, tablets & desktop
+======================================================== */
 
+/* ----------------------------------------------------
+   1. TABLETS & MEDIUM SCREENS (<= 992px)
+---------------------------------------------------- */
 @media (max-width: 992px) {
+    .navbar {
+        padding: 0 3%;
+    }
+
+    .hero {
+        min-height: 75vh;
+        padding: 0 4%;
+    }
+
+    .hero-content {
+        max-width: 540px;
+        padding: 95px 0 50px;
+    }
+
     .hero-title {
-        font-size: 44px;
+        font-size: 42px;
+    }
+
+    .hero-description {
+        font-size: 15px;
     }
 
     .modal-body {
         grid-template-columns: 1fr;
-        gap: 24px;
+        gap: 22px;
     }
 
     .modal-right {
@@ -1255,12 +1294,48 @@ footer {
 
     .footer-top {
         grid-template-columns: 1fr;
+        gap: 30px;
+    }
+
+    .footer-links {
+        grid-template-columns: repeat(3, 1fr);
     }
 }
 
+/* ----------------------------------------------------
+   2. TABLETS & LARGE PHONES (<= 768px)
+---------------------------------------------------- */
 @media (max-width: 768px) {
+    :root {
+        --nav-height: 64px;
+    }
+
+    /* Navbar */
+    .navbar {
+        height: var(--nav-height);
+        padding: 0 16px;
+    }
+
+    .nav-left {
+        gap: 12px;
+    }
+
+    .logo-text {
+        font-size: 20px;
+        letter-spacing: 1.5px;
+    }
+
     .mobile-toggle {
-        display: block;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 38px;
+        height: 38px;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid var(--border-color);
+        border-radius: 6px;
+        color: #fff;
+        font-size: 20px;
     }
 
     #navMenu {
@@ -1270,16 +1345,67 @@ footer {
         left: 0;
         width: 100%;
         background: rgba(15, 15, 18, 0.98);
-        backdrop-filter: blur(20px);
+        backdrop-filter: blur(25px);
+        -webkit-backdrop-filter: blur(25px);
         flex-direction: column;
-        align-items: flex-start;
-        padding: 20px 6%;
+        align-items: stretch;
+        padding: 16px 20px 24px;
         border-bottom: 1px solid var(--border-color);
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+        box-shadow: 0 16px 36px rgba(0, 0, 0, 0.85);
+        gap: 6px;
     }
 
     #navMenu.show {
         display: flex;
+        animation: fadeIn 0.25s ease-out;
+    }
+
+    .nav-link {
+        font-size: 15px;
+        padding: 12px 14px;
+        border-radius: 6px;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: rgba(255, 255, 255, 0.02);
+    }
+
+    .nav-link:hover,
+    .nav-link.active {
+        background: rgba(229, 9, 20, 0.15);
+        color: #fff;
+    }
+
+    .nav-link.active::after {
+        display: none;
+    }
+
+    .mobile-nav-status {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 14px;
+        margin-top: 6px;
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+        font-size: 12.5px;
+        color: var(--text-muted);
+    }
+
+    .mobile-nav-status .status-dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: #e6a23c;
+    }
+
+    .mobile-nav-status.online {
+        color: #46d369;
+    }
+
+    .mobile-nav-status.online .status-dot {
+        background: #46d369;
+        box-shadow: 0 0 6px #46d369;
     }
 
     .nav-right {
@@ -1287,27 +1413,75 @@ footer {
     }
 
     .search-box {
-        width: 160px;
+        width: 150px;
+        padding: 5px 12px;
     }
 
     .search-box:focus-within {
-        width: 200px;
+        width: 180px;
     }
 
     .user-name {
         display: none;
     }
 
+    .avatar {
+        width: 32px;
+        height: 32px;
+        font-size: 13px;
+    }
+
+    /* Hero Section */
+    .hero {
+        min-height: 560px;
+        padding: 0 20px;
+    }
+
+    .hero-backdrop {
+        background-position: center 15%;
+    }
+
+    .hero-overlay {
+        background: linear-gradient(
+            0deg,
+            var(--bg-dark) 0%,
+            rgba(15, 15, 17, 0.88) 50%,
+            rgba(15, 15, 17, 0.4) 100%
+        );
+    }
+
     .hero-content {
-        padding: 90px 0 40px;
+        padding: 85px 0 45px;
+        max-width: 100%;
     }
 
     .hero-title {
-        font-size: 34px;
+        font-size: 32px;
+        margin-bottom: 12px;
+        line-height: 1.2;
+    }
+
+    .hero-meta {
+        font-size: 12px;
+        gap: 8px;
+        margin-bottom: 12px;
+    }
+
+    .hero-genres {
+        gap: 6px;
+        margin-bottom: 14px;
+    }
+
+    .genre-pill {
+        font-size: 11px;
+        padding: 3px 8px;
     }
 
     .hero-description {
         font-size: 14px;
+        line-height: 1.55;
+        margin-bottom: 22px;
+        -webkit-line-clamp: 3;
     }
 
     .hero-actions {
@@ -1316,24 +1490,730 @@ footer {
 
     .btn {
         padding: 10px 18px;
-        font-size: 14px;
+        font-size: 13.5px;
     }
 
-    .movie-card {
-        flex: 0 0 155px;
-        height: 235px;
+    .hero-dots {
+        bottom: 15px;
+        left: 50%;
+        right: auto;
+        transform: translateX(-50%);
+    }
+
+    /* Genre Filter Bar */
+    .genre-filter-bar {
+        padding: 8px 16px;
+        margin-top: -8px;
+    }
+
+    .genre-scroll-container {
+        gap: 8px;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .filter-pill {
+        padding: 6px 14px;
+        font-size: 12px;
+    }
+
+    /* Movie Section & Carousel */
+    .movie-section {
+        padding: 20px 16px;
+    }
+
+    .section-header h2 {
+        font-size: 19px;
+    }
+
+    .section-subtitle {
+        font-size: 12px;
+    }
+
+    .carousel-wrapper {
+        margin: 0 -16px;
     }
 
     .carousel-nav {
-        display: none; /* Swipe on mobile */
+        display: none !important; /* Hide arrows on touch devices */
+    }
+
+    .movie-container {
+        padding: 8px 16px 20px;
+        gap: 12px;
+        -webkit-overflow-scrolling: touch;
+        scroll-snap-type: x mandatory;
+    }
+
+    /* Movie Cards */
+    .movie-card {
+        flex: 0 0 145px;
+        height: 215px;
+        border-radius: 6px;
+        scroll-snap-align: start;
+    }
+
+    .card-badge {
+        font-size: 9px;
+        padding: 2px 6px;
+        top: 6px;
+        left: 6px;
+    }
+
+    /* Always visible gradient on touch devices so title is readable */
+    .card-overlay {
+        opacity: 1;
+        background: linear-gradient(
+            180deg,
+            transparent 40%,
+            rgba(10, 10, 12, 0.95) 100%
+        );
+        padding: 8px;
+    }
+
+    .card-overlay .card-actions {
+        display: none; /* Clicking card directly opens full Details Modal */
+    }
+
+    .card-title {
+        font-size: 12px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        margin-bottom: 2px;
+    }
+
+    .card-meta {
+        font-size: 10px;
+        gap: 6px;
+        margin-bottom: 0;
+    }
+
+    /* Search Results Grid */
+    .search-results-section {
+        padding: 20px 16px;
+    }
+
+    .search-grid {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        gap: 12px;
+        margin-top: 12px;
+    }
+
+    .search-grid .movie-card {
+        flex: none;
+        width: 100%;
+        height: 215px;
+    }
+
+    /* Modals */
+    .modal {
+        padding: 12px;
+    }
+
+    .video-modal-container {
+        width: 100%;
+        max-width: 100%;
+        border-radius: 10px;
+    }
+
+    .video-modal-header {
+        padding: 12px 16px;
+    }
+
+    .video-title-info h3 {
+        font-size: 15px;
+    }
+
+    .now-playing-tag {
+        font-size: 10px;
+    }
+
+    .close-video-btn {
+        width: 32px;
+        height: 32px;
+        font-size: 16px;
+    }
+
+    .detail-modal .modal-content {
+        width: 100%;
+        max-width: 100%;
+        max-height: 92vh;
+        border-radius: 10px;
+    }
+
+    .modal-hero-banner {
+        height: 220px;
+        padding: 20px;
+    }
+
+    .modal-banner-actions .btn {
+        padding: 9px 16px;
+        font-size: 13px;
+    }
+
+    .close-btn {
+        top: 12px;
+        right: 12px;
+        width: 34px;
+        height: 34px;
+        font-size: 16px;
+    }
+
+    .modal-body {
+        padding: 18px 20px 24px;
+        gap: 18px;
+    }
+
+    .modal-left h2 {
+        font-size: 24px;
+        margin-bottom: 8px;
+    }
+
+    .modal-meta-row {
+        gap: 8px;
+        font-size: 12px;
+        margin-bottom: 12px;
+    }
+
+    .modal-description {
+        font-size: 13px;
+        line-height: 1.55;
+    }
+
+    /* Toast Notification */
+    .toast-notification {
+        bottom: 20px;
+        right: 16px;
+        left: 16px;
+        width: auto;
+        max-width: calc(100% - 32px);
+        justify-content: center;
+        font-size: 13px;
+        padding: 10px 16px;
+    }
+
+    /* Footer */
+    footer {
+        padding: 40px 16px 24px;
+        margin-top: 35px;
+    }
+
+    .footer-top {
+        gap: 24px;
+        margin-bottom: 24px;
+    }
+
+    .footer-logo h3 {
+        font-size: 20px;
+        margin-bottom: 6px;
+    }
+
+    .tagline {
+        font-size: 12.5px;
     }
 
     .footer-links {
         grid-template-columns: 1fr;
+        gap: 18px;
     }
 
     .footer-bottom {
         flex-direction: column;
         text-align: center;
+        gap: 12px;
+        padding-top: 20px;
+    }
+
+    .copyright {
+        font-size: 12px;
+    }
+
+    .footer-badges {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 6px;
+    }
+}
+
+/* ----------------------------------------------------
+   3. PHABLETS & STANDARD SMARTPHONES (<= 576px)
+---------------------------------------------------- */
+@media (max-width: 576px) {
+    .server-status-pill .status-text {
+        display: none; /* Hide text on small screens, show only glowing indicator */
+    }
+
+    .server-status-pill {
+        padding: 5px 8px;
+        border-radius: 50%;
+    }
+
+    .search-box {
+        width: 130px;
+    }
+
+    .search-box:focus-within {
+        width: 155px;
+    }
+}
+
+/* ----------------------------------------------------
+   4. SMARTPHONES PORTRAIT (<= 480px)
+   Specific optimizations for 320px to 480px screen widths
+---------------------------------------------------- */
+@media (max-width: 480px) {
+    :root {
+        --nav-height: 58px;
+    }
+
+    /* Navbar */
+    .navbar {
+        height: var(--nav-height);
+        padding: 0 12px;
+    }
+
+    .nav-left {
+        gap: 8px;
+    }
+
+    .logo-text {
+        font-size: 17px;
+        letter-spacing: 1px;
+    }
+
+    .mobile-toggle {
+        width: 32px;
+        height: 32px;
+        font-size: 17px;
+        padding: 0;
+    }
+
+    #navMenu {
+        top: var(--nav-height);
+        padding: 12px 14px 18px;
+    }
+
+    .nav-link {
+        font-size: 14px;
+        padding: 10px 12px;
+    }
+
+    .nav-right {
+        gap: 6px;
+    }
+
+    .search-box {
+        width: 105px;
+        padding: 4px 8px;
+        border-radius: 16px;
+    }
+
+    .search-box:focus-within {
+        width: 130px;
+    }
+
+    .search-icon {
+        font-size: 11px;
+        margin-right: 4px;
+    }
+
+    .search-box input {
+        font-size: 11px;
+    }
+
+    .clear-search-btn {
+        font-size: 10px;
+    }
+
+    .server-status-pill {
+        padding: 4px 6px;
+    }
+
+    .avatar {
+        width: 28px;
+        height: 28px;
+        font-size: 12px;
+        border-radius: 4px;
+    }
+
+    /* Hero Section */
+    .hero {
+        min-height: 510px;
+        padding: 0 14px;
+    }
+
+    .hero-content {
+        padding: 72px 0 35px;
+    }
+
+    .hero-badge {
+        font-size: 10px;
+        padding: 3px 9px;
+        margin-bottom: 10px;
+    }
+
+    .hero-title {
+        font-size: 25px;
+        line-height: 1.15;
+        margin-bottom: 10px;
+        letter-spacing: 0;
+    }
+
+    .hero-meta {
+        font-size: 11px;
+        gap: 5px;
+        margin-bottom: 10px;
+    }
+
+    .quality-badge,
+    .audio-badge {
+        font-size: 8.5px;
+        padding: 1px 4px;
+    }
+
+    .hero-genres {
+        gap: 5px;
+        margin-bottom: 12px;
+    }
+
+    .genre-pill {
+        font-size: 10.5px;
+        padding: 2px 7px;
+    }
+
+    .hero-description {
+        font-size: 12.5px;
+        line-height: 1.45;
+        margin-bottom: 18px;
+        -webkit-line-clamp: 3;
+    }
+
+    .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        width: 100%;
+    }
+
+    .hero-actions .btn {
+        padding: 9px 12px;
+        font-size: 12px;
+        border-radius: 5px;
+        justify-content: center;
+    }
+
+    .hero-actions .btn-primary {
+        width: 100%;
+        flex: 1 1 100%; /* Big touch-friendly main Play button */
+    }
+
+    .hero-actions .btn-secondary,
+    .hero-actions .btn-outline {
+        flex: 1 1 calc(50% - 4px);
+        min-width: 105px;
+    }
+
+    .hero-dots {
+        bottom: 10px;
+        gap: 6px;
+    }
+
+    .dot {
+        width: 7px;
+        height: 7px;
+    }
+
+    .dot.active {
+        width: 18px;
+    }
+
+    /* Genre Filter Bar */
+    .genre-filter-bar {
+        padding: 6px 14px;
+        margin-top: -6px;
+    }
+
+    .genre-scroll-container {
+        gap: 6px;
+        padding-bottom: 4px;
+    }
+
+    .filter-pill {
+        padding: 5px 11px;
+        font-size: 11px;
+    }
+
+    /* Movie Section & Carousel */
+    .movie-section {
+        padding: 16px 14px;
+    }
+
+    .section-header {
+        margin-bottom: 10px;
+        gap: 8px;
+    }
+
+    .section-header h2 {
+        font-size: 16.5px;
+    }
+
+    .section-subtitle {
+        font-size: 11px;
+    }
+
+    .carousel-wrapper {
+        margin: 0 -14px;
+    }
+
+    .movie-container {
+        padding: 6px 14px 16px;
+        gap: 10px;
+    }
+
+    /* Movie Card Dimensions */
+    .movie-card {
+        flex: 0 0 125px;
+        height: 185px;
+        border-radius: 6px;
+    }
+
+    .card-badge {
+        font-size: 8.5px;
+        padding: 2px 5px;
+        top: 5px;
+        left: 5px;
+    }
+
+    .card-title {
+        font-size: 11.5px;
+    }
+
+    .card-meta {
+        font-size: 9.5px;
+        gap: 5px;
+    }
+
+    /* Search Results Grid (2 Columns on mobile) */
+    .search-results-section {
+        padding: 16px 12px;
+    }
+
+    .search-results-section .section-header {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .search-results-section .section-header h2 {
+        font-size: 15px;
+    }
+
+    .close-search-btn {
+        padding: 4px 10px;
+        font-size: 11px;
+    }
+
+    .search-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        margin-top: 10px;
+    }
+
+    .search-grid .movie-card {
+        width: 100%;
+        height: 190px;
+    }
+
+    /* Video Trailer Modal */
+    .modal {
+        padding: 8px;
+    }
+
+    .video-modal-container {
+        border-radius: 8px;
+    }
+
+    .video-modal-header {
+        padding: 10px 12px;
+    }
+
+    .video-title-info h3 {
+        font-size: 13px;
+    }
+
+    .now-playing-tag {
+        font-size: 9.5px;
+    }
+
+    .close-video-btn {
+        width: 28px;
+        height: 28px;
+        font-size: 14px;
+    }
+
+    /* Movie Details Modal */
+    .detail-modal .modal-content {
+        max-height: 94vh;
+        border-radius: 8px;
+    }
+
+    .modal-hero-banner {
+        height: 175px;
+        padding: 14px;
+    }
+
+    .modal-banner-actions {
+        gap: 6px;
+        width: 100%;
+        flex-wrap: wrap;
+    }
+
+    .modal-banner-actions .btn {
+        flex: 1 1 auto;
+        padding: 8px 12px;
+        font-size: 12px;
+    }
+
+    .close-btn {
+        top: 8px;
+        right: 8px;
+        width: 30px;
+        height: 30px;
+        font-size: 14px;
+    }
+
+    .modal-body {
+        padding: 14px 14px 20px;
+        gap: 14px;
+    }
+
+    .modal-left h2 {
+        font-size: 19px;
+        margin-bottom: 6px;
+    }
+
+    .modal-meta-row {
+        font-size: 11px;
+        gap: 6px;
+        margin-bottom: 10px;
+    }
+
+    .modal-description {
+        font-size: 12px;
+        line-height: 1.5;
+    }
+
+    .modal-right {
+        padding-top: 12px;
+        gap: 8px;
+        font-size: 11px;
+    }
+
+    .detail-label {
+        font-size: 10px;
+    }
+
+    /* Toast Notification */
+    .toast-notification {
+        bottom: 14px;
+        right: 10px;
+        left: 10px;
+        max-width: calc(100% - 20px);
+        font-size: 12px;
+        padding: 8px 14px;
+        gap: 8px;
+    }
+
+    .toast-icon {
+        width: 18px;
+        height: 18px;
+        font-size: 10px;
+    }
+
+    /* Footer */
+    footer {
+        padding: 32px 14px 20px;
+        margin-top: 25px;
+    }
+
+    .footer-logo h3 {
+        font-size: 18px;
+    }
+
+    .tagline {
+        font-size: 11.5px;
+    }
+
+    .link-column h4 {
+        font-size: 12.5px;
+        margin-bottom: 6px;
+    }
+
+    .link-column a {
+        font-size: 11.5px;
+        margin-bottom: 6px;
+    }
+
+    .copyright {
+        font-size: 11px;
+    }
+
+    .foot-badge {
+        font-size: 9px;
+        padding: 2px 5px;
+    }
+}
+
+/* ----------------------------------------------------
+   5. ULTRA-COMPACT SMARTPHONES (<= 360px)
+   Specific optimizations for 320px to 360px (Galaxy Fold, iPhone SE1, etc.)
+---------------------------------------------------- */
+@media (max-width: 360px) {
+    .logo-text {
+        font-size: 14.5px;
+        letter-spacing: 0.5px;
+    }
+
+    .search-box {
+        width: 88px;
+        padding: 3px 6px;
+    }
+
+    .search-box:focus-within {
+        width: 110px;
+    }
+
+    .search-box input {
+        font-size: 10px;
+    }
+
+    .server-status-pill {
+        display: none; /* Hide on ultra-narrow 320px screens */
+    }
+
+    .avatar {
+        width: 25px;
+        height: 25px;
+        font-size: 10.5px;
+    }
+
+    .hero-title {
+        font-size: 21px;
+    }
+
+    .hero-description {
+        -webkit-line-clamp: 2;
+    }
+
+    .movie-card {
+        flex: 0 0 115px;
+        height: 170px;
+    }
+
+    .search-grid {
+        gap: 8px;
+    }
+
+    .search-grid .movie-card {
+        height: 175px;
     }
 }
